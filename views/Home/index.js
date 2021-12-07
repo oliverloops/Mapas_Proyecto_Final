@@ -2,6 +2,8 @@ import React from "react";
 import { Text, View, Image, ScrollView, Pressable } from "react-native";
 //styles
 import { content, main } from "./styles";
+//UI comps
+import Slider from "./slider";
 //assets
 import place from "../../public/geodesica.jpeg";
 
@@ -30,6 +32,7 @@ const Content = () => {
       </View>
       <View style={content.layout}>
         <Text style={content.heading}>Inspiración para su siguiente viaje</Text>
+        <Slider />
       </View>
     </>
   );
