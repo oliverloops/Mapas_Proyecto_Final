@@ -46,13 +46,20 @@ const content = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
-
   heading: {
     fontSize: 24,
     marginRight: "30%",
     ...margins,
     marginTop: 40,
     marginBottom: 15,
+  },
+  experienceImg: {
+    height: 450,
+    borderRadius: 12,
+    width: "screen",
+    marginLeft: 25,
+    marginRight: 25,
+    marginTop: 25,
   },
 });
 

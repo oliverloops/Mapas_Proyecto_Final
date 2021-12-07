@@ -68,10 +68,26 @@ const Slider = () => {
 };
 
 const Card = ({ id, place, distance, imgUrl }) => {
+  //Random background colors
+  const bgColors = [
+    "#2ec4b6",
+    "#ef476f",
+    "#fb8500",
+    "#ff9f1c",
+    "#118ab2",
+    "#b185db",
+    "#43aa8b",
+    "#3c6997",
+    "#577590",
+  ];
+
   return (
     <TouchableOpacity
       key={id}
-      style={[slider.card, { backgroundColor: "tomato" }]}
+      style={[
+        slider.card,
+        { backgroundColor: bgColors[Math.floor(Math.random() * 9)] },
+      ]}
     >
       <Image style={slider.cardImage} source={imgUrl} />
       <View style={slider.cardInfo}>

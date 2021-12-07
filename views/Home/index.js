@@ -6,6 +6,8 @@ import { content, main } from "./styles";
 import Slider from "./slider";
 //assets
 import place from "../../public/geodesica.jpeg";
+import diving from "../../public/diving.jpg";
+import kite from "../../public/kite_boarding.jpg";
 
 const Home = () => {
   return (
@@ -38,6 +40,14 @@ const Content = () => {
       </View>
       <View style={content.layout}>
         <Text style={content.heading}>Descubre las mejores experiencias</Text>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <View>
+            <Image style={content.experienceImg} source={diving} />
+          </View>
+          <View>
+            <Image style={content.experienceImg} source={kite} />
+          </View>
+        </View>
       </View>
     </>
   );
