@@ -11,7 +11,7 @@ import Wishlist from "./views/Wishlist";
 
 //Navigator
 const Tab = createBottomTabNavigator();
-
+//Global Tab bar config
 const tabBarNavigationConfig = ({ route }) => ({
   tabBarIcon: ({ color }) => {
     if (route.name === "Home") {
@@ -33,7 +33,13 @@ export default function App() {
         screenOptions={tabBarNavigationConfig}
         initialRouteName="Home"
       >
-        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Tab.Screen name="Explore" component={Map} />
         <Tab.Screen name="Wishlist" component={Wishlist} />
       </Tab.Navigator>
