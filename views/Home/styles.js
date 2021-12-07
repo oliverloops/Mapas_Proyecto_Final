@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 const margins = {
   marginLeft: 20,
@@ -32,6 +32,20 @@ const main = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 25,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+      },
+      android: {
+        elevation: 6,
+      },
+    }),
   },
   buttonText: {
     color: "teal",

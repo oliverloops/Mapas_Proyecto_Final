@@ -62,12 +62,17 @@ const Content = () => {
                 <Text>Experiencias</Text>
               </Pressable>
             </View>
-            <ImageBackground style={content.experienceImg} source={diving}>
+            <ImageBackground
+              style={content.experienceImg}
+              imageStyle={{ borderRadius: 12 }}
+              source={diving}
+            >
               <LinearGradient
                 style={{
                   flex: 1,
+                  borderRadius: 12,
                 }}
-                colors={["transparent", "rgba(0, 0, 0, 0.45)"]}
+                colors={["transparent", "rgba(0, 0, 0, 0.475)"]}
               />
             </ImageBackground>
           </View>
@@ -78,13 +83,14 @@ const Content = () => {
                 <Text>Actividades</Text>
               </Pressable>
             </View>
-            <ImageBackground style={content.experienceImg} source={kite}>
+            <ImageBackground
+              style={content.experienceImg}
+              imageStyle={{ borderRadius: 12 }}
+              source={kite}
+            >
               <LinearGradient
-                style={{
-                  flex: 1,
-                  borderRadius: 12,
-                }}
-                colors={["transparent", "rgba(0, 0, 0, 0.45)"]}
+                style={{ flex: 1, borderRadius: 12 }}
+                colors={["transparent", "rgba(0, 0, 0, 0.475)"]}
               />
             </ImageBackground>
           </View>

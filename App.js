@@ -39,8 +39,20 @@ export default function App() {
             headerShown: false,
           }}
         />
-        <Tab.Screen name="Explorar" component={Map} />
-        <Tab.Screen name="Favoritos" component={Wishlist} />
+        <Tab.Screen
+          name="Explorar"
+          component={Map}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="Favoritos"
+          component={Wishlist}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

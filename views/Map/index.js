@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import MapView from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+//UI comps
+import { SearchBar } from "../../components/SearchBar";
 
 const Map = () => {
   return (

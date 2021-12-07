@@ -31,6 +31,7 @@ const main = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    width: "100%",
   },
   textInput: {
     fontSize: 13,
