@@ -64,9 +64,27 @@ const slider = StyleSheet.create({
   card: {
     height: 200,
     width: 160,
-    backgroundColor: "tomato",
     borderRadius: 12,
     marginRight: 15,
+  },
+  cardImage: {
+    height: 100,
+    width: 160,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+  },
+  cardInfo: {
+    padding: 12,
+  },
+  place: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#fff",
+  },
+  distance: {
+    fontSize: 12,
+    color: "#fff",
+    marginTop: 10,
   },
 });
 

@@ -46,7 +46,7 @@ const Content = () => {
 const RandomButton = () => {
   return (
     <Pressable style={main.button}>
-      <Text style={main.buttonText}>Estoy libre</Text>
+      <Text style={main.buttonText}>Aventurarse</Text>
     </Pressable>
   );
 };

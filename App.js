@@ -14,11 +14,11 @@ const Tab = createBottomTabNavigator();
 //Global Tab bar config
 const tabBarNavigationConfig = ({ route }) => ({
   tabBarIcon: ({ color }) => {
-    if (route.name === "Home") {
+    if (route.name === "Inicio") {
       return <Icon name={"home"} size={25} color={color} />;
-    } else if (route.name === "Explore") {
+    } else if (route.name === "Explorar") {
       return <Icon name={"map"} size={25} color={color} />;
-    } else if (route.name === "Wishlist") {
+    } else if (route.name === "Favoritos") {
       return <Icon name={"heart"} size={25} color={color} />;
     }
   },
@@ -31,17 +31,17 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={tabBarNavigationConfig}
-        initialRouteName="Home"
+        initialRouteName="Inicio"
       >
         <Tab.Screen
-          name="Home"
+          name="Inicio"
           component={Home}
           options={{
             headerShown: false,
           }}
         />
-        <Tab.Screen name="Explore" component={Map} />
-        <Tab.Screen name="Wishlist" component={Wishlist} />
+        <Tab.Screen name="Explorar" component={Map} />
+        <Tab.Screen name="Favoritos" component={Wishlist} />
       </Tab.Navigator>
     </NavigationContainer>
   );
