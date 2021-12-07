@@ -31,8 +31,13 @@ const Content = () => {
         </View>
       </View>
       <View style={content.layout}>
-        <Text style={content.heading}>Inspiración para su siguiente viaje</Text>
+        <Text style={[content.heading, { width: "60%" }]}>
+          Inspiración para su siguiente viaje
+        </Text>
         <Slider />
+      </View>
+      <View style={content.layout}>
+        <Text style={content.heading}>Descubre las mejores experiencias</Text>
       </View>
     </>
   );

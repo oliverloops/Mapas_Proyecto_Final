@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 const margins = {
   marginLeft: 20,
   marginRight: 20,
-  marginTop: 20,
 };
 
 const main = StyleSheet.create({
@@ -45,14 +44,30 @@ const main = StyleSheet.create({
 const content = StyleSheet.create({
   layout: {
     flex: 1,
-    ...margins,
+    flexDirection: "column",
   },
 
   heading: {
     fontSize: 24,
     marginRight: "30%",
-    marginTop: 10,
+    ...margins,
+    marginTop: 40,
+    marginBottom: 15,
   },
 });
 
-export { main, content };
+const slider = StyleSheet.create({
+  container: {
+    paddingTop: 20,
+    marginLeft: 20,
+  },
+  card: {
+    height: 200,
+    width: 160,
+    backgroundColor: "tomato",
+    borderRadius: 12,
+    marginRight: 15,
+  },
+});
+
+export { main, content, slider };
