@@ -12,6 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 //styles
 import { content, main } from "./styles";
 //UI comps
+import SearchBar from "../../components/SearchBar";
 import Slider from "./slider";
 //assets
 import place from "../../public/geodesica.jpeg";
@@ -37,6 +38,7 @@ const Content = () => {
   return (
     <>
       <View style={main.layout}>
+        <SearchBar />
         <Image style={{ height: 500 }} source={place} />
         <View style={main.titleContainer}>
           <Text style={main.title}>¿No sabe a donde ir?</Text>
