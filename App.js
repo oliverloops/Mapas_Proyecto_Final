@@ -12,27 +12,26 @@ import Wishlist from "./views/Wishlist";
 //Navigator
 const Tab = createBottomTabNavigator();
 
+const tabBarNavigationConfig = ({ route }) => ({
+  tabBarIcon: ({ color }) => {
+    if (route.name === "Home") {
+      return <Icon name={"home"} size={25} color={color} />;
+    } else if (route.name === "Explore") {
+      return <Icon name={"map"} size={25} color={color} />;
+    } else if (route.name === "Wishlist") {
+      return <Icon name={"heart"} size={25} color={color} />;
+    }
+  },
+  tabBarActiveTintColor: "rgb(247, 54, 88)",
+  tabBarInactiveTintColor: "rgb(198, 198, 198)",
+});
+
 export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, size }) => {
-            let iconName;
-
-            if (route.name === "Home") {
-              iconName = "home";
-            } else if (route.name === "Explore") {
-              iconName = "map";
-            } else if (route.name === "Wishlist") {
-              iconName = "heart";
-            }
-
-            return <Icon name={iconName} size={28} />;
-          },
-          tabBarActiveTintColor: "rgb(247, 54, 88)",
-          tabBarInactiveTintColor: "rgb(198, 198, 198)",
-        })}
+        screenOptions={tabBarNavigationConfig}
+        initialRouteName="Home"
       >
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Explore" component={Map} />
