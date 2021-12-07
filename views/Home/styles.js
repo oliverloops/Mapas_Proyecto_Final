@@ -53,13 +53,25 @@ const content = StyleSheet.create({
     marginTop: 40,
     marginBottom: 15,
   },
-  experienceImg: {
-    height: 450,
-    borderRadius: 12,
-    width: "screen",
+  imgContainer: {
     marginLeft: 25,
     marginRight: 25,
     marginTop: 25,
+  },
+  imgText: {
+    fontSize: 28,
+    fontWeight: "600",
+    color: "#fff",
+    position: "absolute",
+    zIndex: 99,
+    width: "60%",
+    paddingTop: 30,
+    paddingLeft: 20,
+  },
+  experienceImg: {
+    height: 450,
+    width: "screen",
+    borderRadius: 12,
   },
 });
 

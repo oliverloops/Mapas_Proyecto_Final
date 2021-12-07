@@ -41,10 +41,12 @@ const Content = () => {
       <View style={content.layout}>
         <Text style={content.heading}>Descubre las mejores experiencias</Text>
         <View style={{ flex: 1, justifyContent: "center" }}>
-          <View>
+          <View style={content.imgContainer}>
+            <Text style={content.imgText}>Experiencias para tu viaje</Text>
             <Image style={content.experienceImg} source={diving} />
           </View>
-          <View>
+          <View style={content.imgContainer}>
+            <Text style={content.imgText}>Actividades para tu viaje</Text>
             <Image style={content.experienceImg} source={kite} />
           </View>
         </View>
