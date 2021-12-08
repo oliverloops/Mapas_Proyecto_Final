@@ -6,6 +6,7 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 //styles
@@ -33,11 +34,13 @@ const Wishlist = () => {
     >
       <SafeAreaView style={main.content}>
         <Text style={main.heading}>Lugares Favoritos</Text>
-        <FlatList
-          data={places}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => <ListBlock id={item.id} />}
-        />
+        <View>
+          <FlatList
+            data={places}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => <ListBlock id={item.id} />}
+          />
+        </View>
       </SafeAreaView>
     </ScrollView>
   );
@@ -45,9 +48,11 @@ const Wishlist = () => {
 
 const ListBlock = ({ id }) => {
   return (
-    <View key={id} style={main.block}>
-      <Image source={mazamitla} style={main.image} />
-      <Text style={main.text}>Título del Lugar</Text>
+    <View>
+      <TouchableOpacity key={id} style={main.block}>
+        <Image source={mazamitla} style={main.image} />
+        <Text style={main.text}>Título del Lugar</Text>
+      </TouchableOpacity>
     </View>
   );
 };
