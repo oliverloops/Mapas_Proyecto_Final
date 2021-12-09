@@ -4,26 +4,29 @@ import {
   View,
   Image,
   ScrollView,
-  FlatList,
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 //styles
 import { main } from "./styles";
-//static assets
-import mazamitla from "../../public/mazamitla.webp";
 
 const Wishlist = () => {
   const tabBarheight = useBottomTabBarHeight();
+  const [list, setList] = React.useState([]);
 
-  //places list data
-  const places = [
-    { id: 1, place: "Título del Lugar" },
-    { id: 2, place: "Título del Lugar" },
-    { id: 3, place: "Título del Lugar" },
-    { id: 4, place: "Título del Lugar" },
-  ];
+  const getWishlist = () => {
+    fetch("http://localhost:8000/wishlist", { method: "GET" })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setList(data.map((elem) => elem));
+      });
+  };
+
+  React.useEffect(() => {
+    getWishlist();
+  }, []);
 
   return (
     <ScrollView
@@ -36,26 +39,33 @@ const Wishlist = () => {
         <Text style={main.heading}>Lugares Favoritos</Text>
         <View>
           <ScrollView>
-            <ListBlock id={1} title={"Guanajauto"} />
-            <ListBlock id={2} title={"Tuxtla"} />
-            <ListBlock id={2} title={"San Miguel"} />
+            {list.length > 0 ? (
+              list.map((item) => (
+                <ListBlock
+                  id={item.id}
+                  title={item.place}
+                  image={{ uri: item.place_img }}
+                />
+              ))
+            ) : (
+              <Text
+                style={{ textAlign: "center", marginTop: 20, fontSize: 16 }}
+              >
+                Aún no ha guardado lugares.
+              </Text>
+            )}
           </ScrollView>
-          {/* <FlatList
-            data={places}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => <ListBlock id={item.id} />}
-          /> */}
         </View>
       </SafeAreaView>
     </ScrollView>
   );
 };
 
-const ListBlock = ({ id, title }) => {
+const ListBlock = ({ id, title, image }) => {
   return (
     <View>
       <TouchableOpacity key={id} style={main.block}>
-        <Image source={mazamitla} style={main.image} />
+        <Image source={image} style={main.image} />
         <Text style={main.text}>{title}</Text>
       </TouchableOpacity>
     </View>

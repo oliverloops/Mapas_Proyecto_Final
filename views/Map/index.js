@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  StyleSheet,
   Text,
   View,
   ScrollView,
@@ -11,6 +10,8 @@ import {
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import Icon from "react-native-vector-icons/AntDesign";
+//styles
+import { styles } from "./styles";
 //UI comps
 import SearchBar from "../../components/SearchBar";
 
@@ -143,6 +144,13 @@ const CardsList = ({ item, x, index, updateRangePositions }) => {
   const saveToList = () => {
     if (Object.is(save, "hearto")) {
       setSave("heart");
+      fetch("http://localhost:8000/wishlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ place: item.place }),
+      });
     } else {
       setSave("hearto");
     }
@@ -202,36 +210,5 @@ const CardsList = ({ item, x, index, updateRangePositions }) => {
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  cardContainer: {
-    paddingLeft: 15,
-    transform: [{ translateY: 550 }],
-  },
-  card: {
-    width: 230,
-    height: 160,
-    backgroundColor: "#fff",
-    borderRadius: 12,
-  },
-  image: {
-    width: "100%",
-    height: 94,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-  },
-  info: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 12,
-  },
-});
 
 export default Map;
