@@ -1,8 +1,14 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import MapView, { Marker, Callout } from "react-native-maps";
+import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 //UI comps
 import SearchBar from "../../components/SearchBar";
+//static assets
+import mazamitla from "../../public/mazamitla.webp";
+import tapalpa from "../../public/tapalpa.jpeg";
+import tuxtla from "../../public/tuxtla.jpg";
+import sanMiguel from "../../public/san_miguel.jpg";
+import orizaba from "../../public/orizaba.jpg";
 
 const Map = () => {
   return (
@@ -41,28 +47,33 @@ const MapUIElements = () => {
   const cards = [
     {
       place_id: 1,
+      image: mazamitla,
       place: "Mazamitla",
-      description: "text",
+      description: "Un lugar mágico",
     },
     {
       place_id: 2,
+      image: tapalpa,
       place: "Tapalpa",
-      description: "text",
+      description: "Un lugar mágico",
     },
     {
       place_id: 3,
+      image: tuxtla,
       place: "Tuxtla",
-      description: "text",
+      description: "Un lugar mágico",
     },
     {
       place_id: 4,
-      place: "Tuxtla",
-      description: "text",
+      image: sanMiguel,
+      place: "San Miguel",
+      description: "Un lugar mágico",
     },
     {
       place_id: 5,
+      image: orizaba,
       place: "Tuxtla",
-      description: "text",
+      description: "Un lugar mágico",
     },
   ];
 
@@ -77,8 +88,13 @@ const MapUIElements = () => {
       snapToAlignment="start"
       renderItem={({ item }) => (
         <View style={styles.card} key={item.place_id}>
-          <Text>Título</Text>
-          <Text>Descripción</Text>
+          <Image style={styles.image} source={item.image} />
+          <View style={styles.info}>
+            <Text style={{ fontSize: 15, fontWeight: "600" }}>
+              {item.place}
+            </Text>
+            <Text style={{ fontSize: 12 }}>{item.description}</Text>
+          </View>
         </View>
       )}
     />
@@ -103,6 +119,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     marginLeft: 15,
     borderRadius: 12,
+  },
+  image: {
+    width: "100%",
+    height: 92,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+  },
+  info: {
+    padding: 10,
   },
 });
 
