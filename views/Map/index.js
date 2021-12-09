@@ -1,10 +1,42 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Callout } from "react-native-maps";
 //UI comps
 import SearchBar from "../../components/SearchBar";
 
 const Map = () => {
+  return (
+    <View style={{ flex: 1 }}>
+      <SearchBar />
+      <MapContent />
+      <MapUIElements />
+    </View>
+  );
+};
+
+const MapContent = () => {
+  return (
+    <MapView
+      style={styles.map}
+      initialRegion={{
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }}
+    >
+      <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
+        <View style={{ width: 50, backgroundColor: "tomato" }}>
+          <Text style={{ textAlign: "center" }}>X</Text>
+        </View>
+      </Marker>
+
+      <Marker coordinate={{ latitude: 37.78, longitude: -122.4324 }} />
+    </MapView>
+  );
+};
+
+const MapUIElements = () => {
   //Renderable data
   const cards = [
     {
@@ -22,48 +54,34 @@ const Map = () => {
       place: "Tuxtla",
       description: "text",
     },
+    {
+      place_id: 4,
+      place: "Tuxtla",
+      description: "text",
+    },
+    {
+      place_id: 5,
+      place: "Tuxtla",
+      description: "text",
+    },
   ];
 
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-        <SearchBar />
-
-        <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
-          <View style={{ width: 50, backgroundColor: "tomato" }}>
-            <Text style={{ textAlign: "center" }}>X</Text>
-          </View>
-        </Marker>
-
-        <View style={styles.card}>
+    <FlatList
+      style={styles.cardContainer}
+      horizontal
+      data={cards}
+      showsHorizontalScrollIndicator={false}
+      snapToInterval={220}
+      decelerationRate="fast"
+      snapToAlignment="start"
+      renderItem={({ item }) => (
+        <View style={styles.card} key={item.place_id}>
           <Text>Título</Text>
           <Text>Descripción</Text>
         </View>
-        {/* <FlatList
-            style={[{ paddingRight: 20, paddingLeft: 20 }]}
-            horizontal
-            data={cards}
-            showsHorizontalScrollIndicator={false}
-            snapToInterval={200}
-            decelerationRate="fast"
-            snapToAlignment="start"
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                <Text>Título</Text>
-                <Text>Descripción</Text>
-              </View>
-            )}
-          /> */}
-      </MapView>
-    </View>
+      )}
+    />
   );
 };
 
@@ -74,11 +92,17 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  cardContainer: {
+    paddingRight: 20,
+    paddingLeft: 10,
+    transform: [{ translateY: 550 }],
+  },
   card: {
     width: 200,
     height: 150,
     backgroundColor: "#fff",
-    transform: [{ translateY: 500 }],
+    marginLeft: 15,
+    borderRadius: 12,
   },
 });
 
