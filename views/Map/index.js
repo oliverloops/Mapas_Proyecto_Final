@@ -6,7 +6,7 @@ import SearchBar from "../../components/SearchBar";
 
 const Map = () => {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, alignItems: "center" }}>
       <SearchBar />
       <MapContent />
       <MapUIElements />
