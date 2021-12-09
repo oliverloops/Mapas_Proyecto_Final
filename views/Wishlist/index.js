@@ -35,23 +35,28 @@ const Wishlist = () => {
       <SafeAreaView style={main.content}>
         <Text style={main.heading}>Lugares Favoritos</Text>
         <View>
-          <FlatList
+          <ScrollView>
+            <ListBlock id={1} title={"Guanajauto"} />
+            <ListBlock id={2} title={"Tuxtla"} />
+            <ListBlock id={2} title={"San Miguel"} />
+          </ScrollView>
+          {/* <FlatList
             data={places}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => <ListBlock id={item.id} />}
-          />
+          /> */}
         </View>
       </SafeAreaView>
     </ScrollView>
   );
 };
 
-const ListBlock = ({ id }) => {
+const ListBlock = ({ id, title }) => {
   return (
     <View>
       <TouchableOpacity key={id} style={main.block}>
         <Image source={mazamitla} style={main.image} />
-        <Text style={main.text}>Título del Lugar</Text>
+        <Text style={main.text}>{title}</Text>
       </TouchableOpacity>
     </View>
   );

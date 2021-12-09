@@ -1,6 +1,15 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import Icon from "react-native-vector-icons/AntDesign";
 //UI comps
 import SearchBar from "../../components/SearchBar";
 //static assets
@@ -25,10 +34,10 @@ const MapContent = () => {
     <MapView
       style={styles.map}
       initialRegion={{
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: 21.019,
+        longitude: -101.2574,
+        latitudeDelta: 0.04,
+        longitudeDelta: 0.05,
       }}
     >
       <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
@@ -43,12 +52,26 @@ const MapContent = () => {
 };
 
 const MapUIElements = () => {
+  const [cards, setCards] = React.useState([]);
+
+  const getPlaces = () => {
+    fetch("http://localhost:8000/places")
+      .then((res) => res.json())
+      .then((data) => {
+        setCards(data.map((elem) => elem));
+      });
+  };
+
+  // React.useEffect(() => {
+  //   getPlaces();
+  // }, []);
+
   //Renderable data
-  const cards = [
+  const data = [
     {
       place_id: 1,
       image: mazamitla,
-      place: "Mazamitla",
+      place: "Guanajuato",
       description: "Un lugar mágico",
     },
     {
@@ -78,26 +101,55 @@ const MapUIElements = () => {
   ];
 
   return (
-    <FlatList
-      style={styles.cardContainer}
-      horizontal
-      data={cards}
-      showsHorizontalScrollIndicator={false}
-      snapToInterval={220}
-      decelerationRate="fast"
-      snapToAlignment="start"
-      renderItem={({ item }) => (
-        <View style={styles.card} key={item.place_id}>
-          <Image style={styles.image} source={item.image} />
-          <View style={styles.info}>
-            <Text style={{ fontSize: 15, fontWeight: "600" }}>
-              {item.place}
-            </Text>
-            <Text style={{ fontSize: 12 }}>{item.description}</Text>
-          </View>
+    <>
+      {/* {data.length > 0 ? (
+        <ScrollView style={styles.cardContainer} horizontal>
+          {data.map((item) => (
+            <CardsList item={item} />
+          ))}
+        </ScrollView>
+      ) : (
+        <></>
+      )} */}
+      <FlatList
+        style={styles.cardContainer}
+        horizontal
+        data={data}
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={160}
+        decelerationRate="fast"
+        snapToAlignment="start"
+        renderItem={({ item }) => <CardsList item={item} />}
+      />
+    </>
+  );
+};
+
+const CardsList = ({ item }) => {
+  //heart state handler
+  const [save, setSave] = React.useState("hearto");
+
+  const saveToList = () => {
+    if (Object.is(save, "hearto")) {
+      setSave("heart");
+    } else {
+      setSave("hearto");
+    }
+  };
+
+  return (
+    <View style={styles.card} key={item.place_id}>
+      <Image style={styles.image} source={item.image} />
+      <View style={styles.info}>
+        <View>
+          <Text style={{ fontSize: 15, fontWeight: "600" }}>{item.place}</Text>
+          <Text style={{ fontSize: 12 }}>{item.description}</Text>
         </View>
-      )}
-    />
+        <TouchableOpacity onPress={saveToList}>
+          <Icon name={save} size={26} color={"rgb(247, 54, 88)"} />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
@@ -127,6 +179,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 12,
   },
   info: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 10,
   },
 });
