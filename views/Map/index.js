@@ -18,8 +18,8 @@ const AnimatedSlider = Animated.createAnimatedComponent(ScrollView);
 
 const Map = () => {
   const [coordinates, setCoordinates] = React.useState({
-    lat: 21.125,
-    lon: -101.686,
+    lat: 21.019,
+    lon: -101.2574,
   });
 
   return (
@@ -36,18 +36,19 @@ const MapContent = ({ lat, lon }) => {
     <MapView
       style={styles.map}
       initialRegion={{
+        latitude: 21.019,
+        longitude: -101.2574,
+      }}
+      region={{
         latitude: lat,
         longitude: lon,
-        latitudeDelta: 0.04,
-        longitudeDelta: 0.05,
+        latitudeDelta: 0.025,
+        longitudeDelta: 0.035,
       }}
     >
-      <Marker coordinate={{ latitude: lat, longitude: lon }}>
-        <View style={{ width: 50, backgroundColor: "tomato" }}>
-          <Text style={{ textAlign: "center" }}>X</Text>
-        </View>
-      </Marker>
-
+      <Marker
+        coordinate={{ latitude: parseFloat(lat), longitude: parseFloat(lon) }}
+      ></Marker>
       <Marker coordinate={{ latitude: lat, longitude: lon }} />
     </MapView>
   );
@@ -55,13 +56,14 @@ const MapContent = ({ lat, lon }) => {
 
 const MapUIElements = ({ setCoordinates }) => {
   const [cards, setCards] = React.useState([
-    { coordinates: { lat: 21.125, lon: -101.686 } },
+    { coordinates: { lat: 21.019, lon: -101.2574 } },
   ]);
   const [offsetStart, setOffsetStart] = useState(0);
   const [index, setIndex] = useState(0);
   const x = new Animated.Value(0);
 
   const updatePosition = () => {
+    console.log(index);
     setCoordinates(cards[index].coordinates);
   };
 
@@ -209,15 +211,13 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   cardContainer: {
-    paddingRight: 20,
-    paddingLeft: 10,
+    paddingLeft: 15,
     transform: [{ translateY: 550 }],
   },
   card: {
-    width: 200,
-    height: 150,
+    width: 230,
+    height: 160,
     backgroundColor: "#fff",
-    marginLeft: 15,
     borderRadius: 12,
   },
   image: {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
+    padding: 12,
   },
 });
 
