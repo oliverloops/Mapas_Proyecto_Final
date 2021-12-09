@@ -149,7 +149,11 @@ const CardsList = ({ item, x, index, updateRangePositions }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ place: item.place }),
+        body: JSON.stringify({
+          id: item.place_id,
+          place: item.place,
+          place_img: item.image,
+        }),
       });
     } else {
       setSave("hearto");

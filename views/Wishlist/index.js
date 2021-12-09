@@ -42,6 +42,7 @@ const Wishlist = () => {
             {list.length > 0 ? (
               list.map((item) => (
                 <ListBlock
+                  key={item.id}
                   id={item.id}
                   title={item.place}
                   image={{ uri: item.place_img }}
@@ -63,8 +64,8 @@ const Wishlist = () => {
 
 const ListBlock = ({ id, title, image }) => {
   return (
-    <View>
-      <TouchableOpacity key={id} style={main.block}>
+    <View key={id}>
+      <TouchableOpacity style={main.block}>
         <Image source={image} style={main.image} />
         <Text style={main.text}>{title}</Text>
       </TouchableOpacity>
