@@ -39,6 +39,8 @@ const MapContent = ({ lat, lon }) => {
       initialRegion={{
         latitude: 21.019,
         longitude: -101.2574,
+        latitudeDelta: 0.025,
+        longitudeDelta: 0.035,
       }}
       region={{
         latitude: lat,
@@ -98,7 +100,7 @@ const MapUIElements = ({ setCoordinates }) => {
 
   //Renderable data
   const getPlaces = () => {
-    fetch("http://localhost:8000/places")
+    fetch("https://maps-api-server.herokuapp.com/places")
       .then((res) => res.json())
       .then((data) => {
         setCards(data.map((elem) => elem));
@@ -144,7 +146,7 @@ const CardsList = ({ item, x, index, updateRangePositions }) => {
   const saveToList = () => {
     if (Object.is(save, "hearto")) {
       setSave("heart");
-      fetch("http://localhost:8000/wishlist", {
+      fetch("https://maps-api-server.herokuapp.com/wishlist", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

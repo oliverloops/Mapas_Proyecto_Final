@@ -16,7 +16,7 @@ const Wishlist = () => {
   const [list, setList] = React.useState([]);
 
   const getWishlist = () => {
-    fetch("http://localhost:8000/wishlist", { method: "GET" })
+    fetch("https://maps-api-server.herokuapp.com/wishlist", { method: "GET" })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
