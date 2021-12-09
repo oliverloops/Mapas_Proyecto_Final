@@ -1,59 +1,99 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   ScrollView,
-  FlatList,
   Image,
   TouchableOpacity,
+  Animated,
+  Dimensions,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import Icon from "react-native-vector-icons/AntDesign";
 //UI comps
 import SearchBar from "../../components/SearchBar";
-//static assets
-import mazamitla from "../../public/mazamitla.webp";
-import tapalpa from "../../public/tapalpa.jpeg";
-import tuxtla from "../../public/tuxtla.jpg";
-import sanMiguel from "../../public/san_miguel.jpg";
-import orizaba from "../../public/orizaba.jpg";
+
+const AnimatedSlider = Animated.createAnimatedComponent(ScrollView);
 
 const Map = () => {
+  const [coordinates, setCoordinates] = React.useState({
+    lat: 21.125,
+    lon: -101.686,
+  });
+
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <SearchBar />
-      <MapContent />
-      <MapUIElements />
+      <MapContent lat={coordinates.lat} lon={coordinates.lon} />
+      <MapUIElements setCoordinates={setCoordinates} />
     </View>
   );
 };
 
-const MapContent = () => {
+const MapContent = ({ lat, lon }) => {
   return (
     <MapView
       style={styles.map}
       initialRegion={{
-        latitude: 21.019,
-        longitude: -101.2574,
+        latitude: lat,
+        longitude: lon,
         latitudeDelta: 0.04,
         longitudeDelta: 0.05,
       }}
     >
-      <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
+      <Marker coordinate={{ latitude: lat, longitude: lon }}>
         <View style={{ width: 50, backgroundColor: "tomato" }}>
           <Text style={{ textAlign: "center" }}>X</Text>
         </View>
       </Marker>
 
-      <Marker coordinate={{ latitude: 37.78, longitude: -122.4324 }} />
+      <Marker coordinate={{ latitude: lat, longitude: lon }} />
     </MapView>
   );
 };
 
-const MapUIElements = () => {
-  const [cards, setCards] = React.useState([]);
+const MapUIElements = ({ setCoordinates }) => {
+  const [cards, setCards] = React.useState([
+    { coordinates: { lat: 21.125, lon: -101.686 } },
+  ]);
+  const [offsetStart, setOffsetStart] = useState(0);
+  const [index, setIndex] = useState(0);
+  const x = new Animated.Value(0);
 
+  const updatePosition = () => {
+    setCoordinates(cards[index].coordinates);
+  };
+
+  const updateState = (event) => {
+    let position = event.nativeEvent.contentOffset.x;
+    let i = Math.floor((position - offsetStart) / 200);
+
+    if (index !== i) {
+      updatePosition();
+      setIndex(i);
+    }
+  };
+
+  const onScroll = Animated.event(
+    [
+      {
+        nativeEvent: {
+          contentOffset: { x },
+        },
+      },
+    ],
+    {
+      listener: (event) => updateState(event),
+      useNativeDriver: true,
+    }
+  );
+
+  const _updateRangePositions = (offsetStart) => {
+    setOffsetStart(offsetStart);
+  };
+
+  //Renderable data
   const getPlaces = () => {
     fetch("http://localhost:8000/places")
       .then((res) => res.json())
@@ -62,70 +102,39 @@ const MapUIElements = () => {
       });
   };
 
-  // React.useEffect(() => {
-  //   getPlaces();
-  // }, []);
-
-  //Renderable data
-  const data = [
-    {
-      place_id: 1,
-      image: mazamitla,
-      place: "Guanajuato",
-      description: "Un lugar mágico",
-    },
-    {
-      place_id: 2,
-      image: tapalpa,
-      place: "Tapalpa",
-      description: "Un lugar mágico",
-    },
-    {
-      place_id: 3,
-      image: tuxtla,
-      place: "Tuxtla",
-      description: "Un lugar mágico",
-    },
-    {
-      place_id: 4,
-      image: sanMiguel,
-      place: "San Miguel",
-      description: "Un lugar mágico",
-    },
-    {
-      place_id: 5,
-      image: orizaba,
-      place: "Tuxtla",
-      description: "Un lugar mágico",
-    },
-  ];
+  React.useEffect(() => {
+    getPlaces();
+  }, []);
 
   return (
     <>
-      {/* {data.length > 0 ? (
-        <ScrollView style={styles.cardContainer} horizontal>
-          {data.map((item) => (
-            <CardsList item={item} />
+      {cards.length > 0 ? (
+        <AnimatedSlider
+          style={styles.cardContainer}
+          onScroll={onScroll}
+          scrollEventThrottle={16}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.index}
+        >
+          {cards.map((item) => (
+            <CardsList
+              x={x}
+              index={index}
+              item={item}
+              setCoordinates={setCoordinates}
+              updateRangePositions={_updateRangePositions}
+            />
           ))}
-        </ScrollView>
+        </AnimatedSlider>
       ) : (
         <></>
-      )} */}
-      <FlatList
-        style={styles.cardContainer}
-        horizontal
-        data={data}
-        showsHorizontalScrollIndicator={false}
-        snapToInterval={160}
-        decelerationRate="fast"
-        snapToAlignment="start"
-        renderItem={({ item }) => <CardsList item={item} />}
-      />
+      )}
     </>
   );
 };
 
-const CardsList = ({ item }) => {
+const CardsList = ({ item, x, index, updateRangePositions }) => {
   //heart state handler
   const [save, setSave] = React.useState("hearto");
 
@@ -137,19 +146,58 @@ const CardsList = ({ item }) => {
     }
   };
 
+  const { width } = Dimensions.get("window");
+  const CARD_WIDTH = width * 0.6;
+
+  const contentInset = () => {
+    const insetHorizontal = (width - CARD_WIDTH) / 2;
+    return {
+      right: insetHorizontal,
+      left: insetHorizontal,
+    };
+  };
+
+  const offsetForItem = (index) => {
+    return 200 * index - contentInset().left;
+  };
+
+  const offsetCenter = offsetForItem(index);
+  const offsetStart = offsetCenter - CARD_WIDTH / 2;
+  const offsetEnd = offsetCenter + CARD_WIDTH / 2;
+
+  React.useEffect(() => {
+    index === 0 && updateRangePositions(offsetStart);
+  }, []);
+
   return (
-    <View style={styles.card} key={item.place_id}>
-      <Image style={styles.image} source={item.image} />
+    <Animated.View
+      style={[
+        styles.card,
+        {
+          transform: [
+            {
+              scale: x.interpolate({
+                inputRange: [offsetStart, offsetCenter, offsetEnd],
+                outputRange: [0.9, 1.0, 0.9],
+                extrapolate: "clamp",
+              }),
+            },
+          ],
+        },
+      ]}
+      key={item.place_id}
+    >
+      <Image style={styles.image} source={{ uri: item.image }} />
       <View style={styles.info}>
         <View>
-          <Text style={{ fontSize: 15, fontWeight: "600" }}>{item.place}</Text>
-          <Text style={{ fontSize: 12 }}>{item.description}</Text>
+          <Text style={{ fontSize: 14, fontWeight: "600" }}>{item.place}</Text>
+          <Text style={{ fontSize: 13 }}>{item.price}</Text>
         </View>
         <TouchableOpacity onPress={saveToList}>
-          <Icon name={save} size={26} color={"rgb(247, 54, 88)"} />
+          <Icon name={save} size={24} color={"rgb(247, 54, 88)"} />
         </TouchableOpacity>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -174,7 +222,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 92,
+    height: 94,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
   },
